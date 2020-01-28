@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Edit your blog{% endblock %}
+{% block content %}
+
+  {% if has_access %}
+    <h1>Edit your blog</h1>
+    <p>You can edit your blog using the following form:</p>
+    <form action="." method="post">
+      {{ edit_form.as_p }}
+      {% csrf_token %}
+      <p><input type="submit" value="Save changes"></p>
+    </form>
+  {% else %}
+    <p>You don't have permission to edit this blog!</p>
+  {% endif %}
+{% endblock %}

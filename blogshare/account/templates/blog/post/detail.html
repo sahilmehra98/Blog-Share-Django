@@ -6,10 +6,12 @@
     <p>
       Published on {{ post.publish }}
     </p>
+
     {{ post.body|linebreaks }}
+
   {% else %}
     <p>You don't have access to view this post!</p>
   {% endif %}
 
-
+<p><a href="{{ post.get_absolute_url }}edit">Edit this blog</a></p>
 {% endblock %}
