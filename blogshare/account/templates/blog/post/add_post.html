@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Create Blog{% endblock %}
+{% block content %}
+  <h1>Create Blog</h1>
+  <p>Use the following form to add a blog:</p>
+  <form action="." method="post">
+    {{ form.as_p }}
+    {% csrf_token %}
+    <p><input type="submit" value="Add"></p>
+  </form>
+{% endblock %}
