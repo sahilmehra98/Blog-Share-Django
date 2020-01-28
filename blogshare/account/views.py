@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.contrib import messages
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm, USerEditForm
 
 @login_required
 def dashboard(request):
@@ -21,3 +21,13 @@ def register(request):
     else:
         user_form=UserRegistrationForm()
     return render(request, 'account/register.html', {'user_form':user_form})
+
+@login_required
+def edit(request):
+    if request.method=='POST':
+        user_form=USerEditForm(instance=request.user, data=request.POST)
+        if user_form.is_valid():
+            user_form.save()
+    else:
+        user_form=USerEditForm(instance=request.user)
+    return render(request, 'account/edit.html', {'user_form':user_form})
