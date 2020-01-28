@@ -124,7 +124,7 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL='account.MyUser'
 
 #for login and logout
-LOGIN_REDIRECT_URL='dashboard'
+LOGIN_REDIRECT_URL='blog:post_list'
 LOGIN_URL='login'
 LOGOUT_URL='logout'
 
