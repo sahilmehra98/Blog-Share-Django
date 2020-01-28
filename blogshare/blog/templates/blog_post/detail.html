@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block content %}
+  {% if has_access %}
+    <h1>{{ post.title }}</h1>
+    <p>
+      Published on {{ post.publish }}
+    </p>
+    {{ post.body|linebreaks }}
+  {% else %}
+    <p>You don't have access to view this post!</p>
+  {% endif %}
+
+
+{% endblock %}
