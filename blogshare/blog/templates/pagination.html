@@ -1,0 +1,22 @@
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+      <li class="page-item {% if page.has_previous %}{% else %}disabled{% endif %}">
+        <a class="page-link" {% if page.has_previous %}href="?page={{ page.previous_page_number }}" {% else %} tabindex="-1" aria-disabled="true"{% endif %}>
+          Previous
+        </a>
+      </li>
+
+    <li class="page-item disabled">
+      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+        Page {{ page.number }} of {{ page.paginator.num_pages }}
+      </a>
+    </li>
+
+      <li class="page-item {% if page.has_next %}{% else %}disabled{% endif %}">
+        <a class="page-link" {% if page.has_next %} href="?page={{ page.next_page_number }}" {% else %} tabindex="-1" aria-disabled="true"{% endif %}>
+          Next
+        </a>
+      </li>
+    
+  </ul>
+</nav>
