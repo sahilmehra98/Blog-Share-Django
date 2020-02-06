@@ -3,6 +3,14 @@ from django.shortcuts import render
 from django.contrib import messages
 from .forms import UserRegistrationForm, USerEditForm
 
+from rest_framework import viewsets
+from .serializers import UserProfileSerializer
+from django.contrib.auth import get_user_model
+from rest_framework.authentication import TokenAuthentication
+from .permissions import UpdateOwnProfile
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.settings import api_settings
+
 @login_required
 def dashboard(request):
     return render(request, 'account/dashboard.html', {'section':'dashboard'})
@@ -31,3 +39,16 @@ def edit(request):
     else:
         user_form=USerEditForm(instance=request.user)
     return render(request, 'account/edit.html', {'user_form':user_form})
+
+
+#API
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    model=get_user_model()
+    serializer_class=UserProfileSerializer
+    queryset=model.objects.all()
+    authentication_classes=(TokenAuthentication,)
+    permission_classes=(UpdateOwnProfile,)
+
+class UserLoginApiView(ObtainAuthToken):
+    renderer_classes=api_settings.DEFAULT_RENDERER_CLASSES
