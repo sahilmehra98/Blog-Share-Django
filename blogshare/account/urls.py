@@ -1,10 +1,7 @@
 from django.urls import path, include
 from . import views
 from django.contrib.auth import views as auth_views
-from rest_framework.routers import DefaultRouter
 
-router=DefaultRouter()
-router.register('profile', views.UserProfileViewSet)
 
 urlpatterns=[
     path('login/', auth_views.LoginView.as_view(redirect_authenticated_user=True), name='login'),
@@ -12,6 +9,8 @@ urlpatterns=[
     path('', views.dashboard, name='dashboard'),
     path('register/', views.register, name='register'),
     path('edit/', views.edit, name='edit'),
+    #API urls
     path('apilogin/', views.UserLoginApiView.as_view()),
-    path('api/', include(router.urls)),
+    path('users/', views.CreateUser.as_view(), name='create-user'),
+    path('users/<int:pk>/', views.EditUser.as_view(), name='edit-user'),
 ]

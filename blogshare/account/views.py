@@ -3,11 +3,11 @@ from django.shortcuts import render
 from django.contrib import messages
 from .forms import UserRegistrationForm, USerEditForm
 
-from rest_framework import viewsets
-from .serializers import UserProfileSerializer
+from rest_framework import generics
+from .serializers import CreateUserSerializer, EditUserSerializer
 from django.contrib.auth import get_user_model
 from rest_framework.authentication import TokenAuthentication
-from .permissions import UpdateOwnProfile
+from .permissions import EditOwnProfile
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
 
@@ -42,13 +42,15 @@ def edit(request):
 
 
 #API
+class CreateUser(generics.CreateAPIView):
+    queryset = get_user_model().objects.all()
+    serializer_class = CreateUserSerializer
 
-class UserProfileViewSet(viewsets.ModelViewSet):
-    model=get_user_model()
-    serializer_class=UserProfileSerializer
-    queryset=model.objects.all()
+class EditUser(generics.UpdateAPIView):
+    queryset=get_user_model().objects.all()
+    serializer_class=EditUserSerializer
     authentication_classes=(TokenAuthentication,)
-    permission_classes=(UpdateOwnProfile,)
+    permission_classes = [EditOwnProfile]
 
 class UserLoginApiView(ObtainAuthToken):
     renderer_classes=api_settings.DEFAULT_RENDERER_CLASSES

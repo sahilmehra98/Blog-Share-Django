@@ -2,11 +2,13 @@ from rest_framework import serializers
 from .models import MyUser
 from django.contrib.auth import get_user_model
 
-class UserProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=get_user_model()
-        fields=('email', 'first_name', 'last_name', 'password', 'contact')
 
+class CreateUserSerializer(serializers.ModelSerializer):
+    #password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = get_user_model()
+        fields = ('email', 'first_name', 'last_name', 'password', 'contact')
         extra_kwargs={
             'password':{
                 'write_only':True,
@@ -23,3 +25,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
+
+class EditUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=get_user_model()
+        fields=('first_name', 'last_name', 'contact', 'discription', 'dob')
