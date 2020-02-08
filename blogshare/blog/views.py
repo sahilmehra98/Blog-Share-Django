@@ -4,6 +4,12 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from .forms import AddPostForm, EditPostForm
 
+from rest_framework import generics
+from .serializers import PostSerializer
+from rest_framework.authentication import TokenAuthentication
+from .permissions import EditOwnPost
+from rest_framework.permissions import IsAuthenticated
+
 # Create your views here.
 class PostListView(ListView):
     context_object_name='posts'
@@ -57,3 +63,25 @@ def edit(request, year, month, day, slug):
     else:
         edit_form=EditPostForm(instance=raw_post)
     return render(request, 'blog/post/edit.html', {'edit_form': edit_form, 'has_access':has_access})
+
+
+#API views
+
+class PostList(generics.ListCreateAPIView):
+    serializer_class = PostSerializer
+    authentication_classes=(TokenAuthentication,)
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Post.published.filter(author__email=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
+class PostDetail(generics.RetrieveUpdateAPIView):
+    serializer_class = PostSerializer
+    authentication_classes=(TokenAuthentication,)
+    permission_classes = [EditOwnPost, IsAuthenticated]
+
+    def get_queryset(self):
+        return Post.published.filter(author__email=self.request.user)
