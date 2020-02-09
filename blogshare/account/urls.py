@@ -13,4 +13,5 @@ urlpatterns=[
     path('apilogin/', views.UserLoginApiView.as_view()),
     path('users/', views.CreateUser.as_view(), name='create-user'),
     path('users/<int:pk>/', views.EditUser.as_view(), name='edit-user'),
+    path('api/change_password/', views.ChangePasswordView.as_view()),
 ]

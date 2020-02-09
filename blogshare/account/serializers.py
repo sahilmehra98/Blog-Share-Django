@@ -30,3 +30,8 @@ class EditUserSerializer(serializers.ModelSerializer):
     class Meta:
         model=get_user_model()
         fields=('first_name', 'last_name', 'contact', 'discription', 'dob')
+
+class ChangePasswordSerializer(serializers.Serializer):
+    model = get_user_model()
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
